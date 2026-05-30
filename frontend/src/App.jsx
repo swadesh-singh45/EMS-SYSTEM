@@ -12,6 +12,7 @@ import PrintPayslip from './pages/PrintPayslip'
 import Layout from './pages/Layout'
 import LoginForm from './components/LoginForm'
 
+
 const App = () => {
   return (
     <>
@@ -26,7 +27,7 @@ const App = () => {
          <Route element= { <Layout/> }>
             <Route path='/dashboard' element= {<Dashboard/>}/>
             <Route path='/employees' element= {<Employees />}/>
-            <Route path='/attendence' element= {<Attendence />}/>
+            <Route path='/attendance' element= {<Attendence />}/>
             <Route path='/payslips' element= {<Payslip />}/>
             <Route path='/leave' element= {<Leave />}/>
             <Route path='/settings' element= {<Settings />}/>
