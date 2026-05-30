@@ -124,6 +124,5 @@
 
 /* Selection */
 ::selection {
-    /* @apply bg-indigo-100 text-indigo-900; */
+    @apply bg-indigo-100 text-indigo-900;
 }
-
