@@ -42,11 +42,11 @@ const autoCheckOut = inngest.createFunction(
 
 
       // After 10 hour, mark attendance as checkOut with status "Late"
-      await step.sleepUntil("wait-for-the-1-hour", new Date(new Date().getTime()+ 1 * 60 * 60 * 100) )
+      await step.sleepUntil("wait-for-the-1-hour", new Date(new Date().getTime() + 1 * 60 * 60 * 1000) )
 
       attendance = await Attendance.findById(attendanceId)
       if(!attendance?.checkOut) {
-        attendance.checkOut = new Date(new Date (attendance.checkIn)).getTime() + 4 * 60 * 60 * 1000;
+        attendance.checkOut = new Date(attendance.checkIn).getTime() + 4 * 60 * 60 * 1000;
         attendance.workingHours = 4;
         attendance.dayType = "Half Day";
         attendance.status = "LATE";
@@ -101,9 +101,9 @@ const attendanceReminderCron = inngest.createFunction(
      // get today's date range (IST)
 
      const today =  await step.run("get-today-date", ()=>{
-       const startUTC = new Date(new Date().toLocaleDateString("en-CA", {timeZone: "Asia/Kolkata"}) + "T00:00:00 +05:30");
+       const startUTC = new Date(new Date().toLocaleDateString("en-CA", {timeZone: "Asia/Kolkata"}) + "T00:00:00+05:30");
 
-       const endUTC = new Date(startUTC.getTime() + 24 * 60 * 60 * 100);
+       const endUTC = new Date(startUTC.getTime() + 24 * 60 * 60 * 1000 );
        return {startUTC: startUTC.toISOString(), endUTC: endUTC.toISOString()}
      })
 
@@ -163,9 +163,9 @@ const attendanceReminderCron = inngest.createFunction(
                </div>`
           })
         })
+        await Promise.all(emailPromises)
       })
     }
-    await Promise.all(emailPromises)
 
     return {totalActive: activeEmployees.length, onLeave: onLeaveIds.length, checkIn: checkInIds.length, absent: absentEmployees.length}
 
