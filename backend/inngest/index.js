@@ -129,10 +129,15 @@ const attendanceReminderCron = inngest.createFunction(
 
     //  get Employee Ids who already checked in today
 
-    const checkInIds = await step.run("get-checked-in-ids",async () => {
-      const attendances = await Attendance.find({
-        date: { $gte: new Date(today.startUTC), $lt: new Date(today.endUTC )},
-      }).lean()
+    const checkInIds = await step.run("get-checked-in-ids", async () => {
+
+    const attendances = await Attendance.find({
+      date: {
+        $gte: new Date(today.startUTC),
+        $lt: new Date(today.endUTC),
+      },
+      checkIn: { $ne: null }
+     }).lean();
       return attendances.map((a)=> a.employeeId.toString())
     })
 
